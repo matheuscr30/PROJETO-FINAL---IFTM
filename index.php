@@ -26,9 +26,7 @@
             ?>
             <tr>
                 <td colspan="3"><p>&nbsp;</p>
-                    <?php
-		              include $paginacentral;
-                    ?>
+
         
                 </td>
             </tr>
