@@ -1,6 +1,4 @@
 <?php
-    include 'functions.php';
-
 	$op = @$_REQUEST['op'];
 	
 	if(!isset($op)){
@@ -75,19 +73,17 @@
             if($op == 1)
             {
                 if(conecta()){
-                    $texto_sql = "SELECT `codigo` FROM cad_usuarios WHERE `email`=\"$e_email_entrar\" AND `senha`=\"$e_senha_entrar\"" ;
-                    $result = mysql_query($texto_sql);
-                    $quantidade = @mysql_num_rows($result);
+                    $texto_sql = "SELECT codigo, nome FROM cad_usuarios WHERE email='{$e_email_entrar}' AND senha='{$e_senha_entrar}'" ;
+                    $result = pg_query($texto_sql);
+                    $quantidade = pg_num_rows($result);
+                    $vetor = pg_fetch_array($result);
+                    
                     if($quantidade != 0 ){
-                         //alerta ("Usuario Logado");
-                        $texto_sql = "SELECT `nome` FROM `cad_usuarios` WHERE `email` = '$e_email_entrar'";
-                        $result = mysql_query($texto_sql);
-                        $vetor =  mysql_fetch_row($result);	
-
-                        setcookie('cookie_nome_usuario', $vetor[0]);
-
+                        $_SESSION["nome_usuario"] = $vetor['nome'];
+                        $_SESSION['login'] = $e_email_entrar;
+                        $_SESSION['senha'] = $e_senha_entrar;
                         echo "<script language=\"javascript\" type=\"application/javascript\">";
-                        echo "window.location.replace(\"index.php?paginacentral=home.php&estado=logado\")";
+                        echo "window.location.replace(\"index.php?paginacentral=home.php\")";
                         echo "</script>";			
                     }
                     else

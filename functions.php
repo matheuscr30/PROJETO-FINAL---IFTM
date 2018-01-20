@@ -8,26 +8,19 @@
     function conecta(){
         $host         = "localhost";
         $usuario      = "postgres";
-        $senha        = "********";
+        $senha        = "matheusthais";
         $bancodedados = "info_mcr";
 
-        $servidor = pg_connect($host, $usuario, $senha);
-        alerta("lelele");
-
+        $servidor = pg_connect("host=localhost port=5432 dbname=info_mcr user=postgres password=matheusthais");
             if($servidor){
-                alerta("conexao com o servidor ok");
-                $db = mysql_select_db($bancodedados, $servidor);
-                if($db){
-                    alerta ("conexao OK");
-                }else{
-                    alerta ("conexao OFF");
-                }
+                //alerta("conexao com o servidor ok");
                 return true;
             }else{
                 alerta("conexao com o servidor falha");		
             }
+        return false;
     }
-
+    
     function validar_email($email) { 
         $pattern = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i";
 
@@ -36,8 +29,7 @@
         }else {
             return false;
         }
-    } 
-
+    }
 
     function validar_cpf($cpf)
     {

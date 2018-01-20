@@ -1,6 +1,4 @@
 <?php
-    include 'functions.php';
-
 	$op = @$_REQUEST['op'];
 	
 	if(!isset($op)){
@@ -66,7 +64,7 @@
             {
         ?>
         
-        <form action="index.php?paginacentral=cadastro_receitas.php&op=1&estado=logado&opestado=1" method="post" enctype="multipart/form-data" name="form1" id="form1">
+        <form action="index.php?paginacentral=cadastro_receitas.php&op=1" method="post" enctype="multipart/form-data" name="form1" id="form1">
             <div align="center">
                 <table width="400" border="0">
                     <tr>
@@ -131,25 +129,22 @@
         <?php
             }
 
-            if($op == 1){
-                conecta();
-                //Se op = 1, ou seja se for enviado os valores do formulario, ele pega e insere no banco de dado
-
-                $texto_sql = "INSERT INTO `cad_receitas`(`codigo_receita`, `nome_receita`, `tempo`, `ingredientes`, `modo_preparo`, `foto`, `tipo_receita` ) VALUES (null, '$e_nome_receita', '$e_tempo_receita' ,'$e_ingredientes_receita', '$e_modo_receita', '$e_imagem_receita', '$e_tipo_receita')";
-                $result = mysql_query($texto_sql);
+            if($op == 1 && conecta()){
+                $texto_sql = "INSERT INTO cad_receitas(codigo_receita, nome_receita, tempo, ingredientes, modo_preparo, foto, tipo_receita ) VALUES (null, '$e_nome_receita', '$e_tempo_receita' ,'$e_ingredientes_receita', '$e_modo_receita', '$e_imagem_receita', '$e_tipo_receita')";
+                $result = pg_query($texto_sql);
 
                 if($result > 0)
                 {
                     alerta("Dados inseridos");
                     echo "<script language=\"javascript\" type=\"application/javascript\">";
-                    echo "window.location.replace(\"index.php?paginacentral=cadastro_receitas.php&estado=logado&opestado=1\")";
+                    echo "window.location.replace(\"index.php?paginacentral=cadastro_receitas.php\")";
                     echo "</script>";
                 }
                 else
                 {
                     alerta("Dados não inseridos");
                     echo "<script language=\"javascript\" type=\"application/javascript\">";
-                    echo "window.location.replace(\"index.php?paginacentral=cadastro_receitas.php&estado=logado&opestado=1\")";
+                    echo "window.location.replace(\"index.php?paginacentral=cadastro_receitas.php\")";
                     echo "</script>";
                 }
             }	

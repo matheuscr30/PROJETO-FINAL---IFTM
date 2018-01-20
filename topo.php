@@ -1,15 +1,20 @@
 <?php
+    $nome_usuario = $_SESSION["nome_usuario"];
+    if ( !isset($_SESSION['login']) and !isset($_SESSION['senha']) )
+        $estado = 'naologado';
+    else
+        $estado = 'logado';
+    
     function verifica_estado_topo($estado)
-    {	
-        $valor_cookie_nome_usuario = @$_COOKIE['cookie_nome_usuario'];		
-        if($valor_cookie_nome_usuario != ''){
+    {
+        if($nome_usuario != ''){
             echo "<script language=\"javascript\" type=\"application/javascript\">";
-            echo "window.location.replace(\"index.php?paginacentral=tipo_receita.php&estado=logado\")";
+            echo "window.location.replace(\"index.php?paginacentral=tipo_receita.php\")";
             echo "</script>";				
         } 
         else {
             echo "<script language=\"javascript\" type=\"application/javascript\">";
-            echo "window.location.replace(\"index.php?paginacentral=tipo_receita.php&estado=naologado\")";
+            echo "window.location.replace(\"index.php?paginacentral=tipo_receita.php\")";
             echo "</script>";				
         }
     }
@@ -24,6 +29,7 @@
 	//3 - Bebidas
 	//4 - Sopas
 	//5 - Doces e Sobremesas
+    
 	
 	if(!isset($op_buscar)){
 		$op_buscar = 0;
@@ -51,7 +57,7 @@
             <ul class="pull-left">
                 <li class="esquerda">
                     <?php
-                        echo "<a href=\"index.php?paginacentral=home.php&estado=$estado\"><img src=\"imagens/as-minhas-receitas.png\"></img></a>";
+                        echo "<a href=\"index.php?paginacentral=home.php\"><img src=\"imagens/as-minhas-receitas.png\"></img></a>";
                     ?>            
                 </li>
           
@@ -60,7 +66,7 @@
                         <div align="center">
                             <input name="e_nome_receita" type="text" placeholder="Digite o nome da receita:" />
                                 <?php
-                                    echo "<input name=\"botao_buscar\" class=\"btn btn-default btn-sm\" formaction=\"index.php?paginacentral=home.php&estado=$estado&op_buscar=1\" type=\"submit\" value=\"Buscar\" />";
+                                    echo "<input name=\"botao_buscar\" class=\"btn btn-default btn-sm\" formaction=\"index.php?paginacentral=home.php&op_buscar=1\" type=\"submit\" value=\"Buscar\" />";
                                 ?>
                         </div>
                         <br/>
@@ -86,25 +92,24 @@
             ?>
         
             <?php
-                @$valor_cookie_nome_usuario = $_COOKIE['cookie_nome_usuario'];
-                if ($estado == 'logado' && $valor_cookie_nome_usuario != 'Matheus'){
+                if($estado == 'logado'){
+                    
+                 //   session_start();
+                    $nome_usuario = $_SESSION["nome_usuario"];
+                //    session_write_close();
+                    
                     echo "<ul class=\"pull-right\" >";
-                    echo "<li>Bem Vindo, $valor_cookie_nome_usuario</li>";
+                    echo "<li>Bem Vindo, $nome_usuario</li>";
                     echo "<li><form action=\"\" method=\"post\">";
-                    echo "<input name=\"botao_sair\" class=\"btn btn-default btn-sm\" formaction=\"index.php?paginacentral=home.php&estado=naologado&op_estado=1\" type=\"submit\" value=\"Sair\">";
+                    echo "<input name=\"botao_sair\" class=\"btn btn-danger btn-sm\" formaction=\"index.php?paginacentral=home.php&op_estado=1\" type=\"submit\" value=\"Sair\">";
+                    
+                    if($nome_usuario == 'Matheus'){
+                        echo "<li><input name=\"botao_cadastrar_receita\" class=\"btn btn-default btn-sm\" formaction=\"index.php?paginacentral=cadastro_receitas.php&opestado=1\" type=\"submit\" value=\"Cadastrar Receitas\"></li>";
+                    }
+                    
                     echo "</form></li>";
                     echo "</ul>";
-                }
-
-                if ($estado == 'logado' && $valor_cookie_nome_usuario == 'Matheus'){    		
-                    echo "<ul class=\"pull-right\" >";
-                    echo "<li>Bem Vindo, $valor_cookie_nome_usuario</li>";
-                    echo "<li><form action=\"\" method=\"post\">";
-                    echo "<input name=\"botao_sair\" class=\"btn btn-default btn-sm\" formaction=\"index.php?paginacentral=home.php&estado=naologado&op_estado=1\" type=\"submit\" value=\"Sair\">";
-                    echo "<li><input name=\"botao_cadastrar_receita\" class=\"btn btn-default btn-sm\" formaction=\"index.php?paginacentral=cadastro_receitas.php&estado=logado&opestado=1\" type=\"submit\" value=\"Cadastrar Receitas\"></li>";
-                    echo "</form></li>";
-                    echo "</ul>";
-                }		
+                }	
             ?>
         </div>
     </div>
@@ -115,15 +120,15 @@
             <form action=""  method="post">
                 <div align="center" >
                     
-                    <input name="botao_bolos_tortas"  class="btn btn-primary" formaction="index.php?estado=<?php echo $estado; ?>&op_tipo_receita=1&e_tipo_receita=1" type="submit" value="Bolos e Tortas" />
+                    <input name="botao_bolos_tortas"  class="btn btn-primary" formaction="index.php?op_tipo_receita=1&e_tipo_receita=1" type="submit" value="Bolos e Tortas" />
                     &nbsp;
-                    <input name="botao_carnes_peixes" class="btn btn-success" formaction="index.php?estado=<?php echo $estado; ?>&op_tipo_receita=1&e_tipo_receita=2" type="submit" value="Carnes e Peixes" />
+                    <input name="botao_carnes_peixes" class="btn btn-success" formaction="index.php?op_tipo_receita=1&e_tipo_receita=2" type="submit" value="Carnes e Peixes" />
                     &nbsp;
-                    <input name="botao_bebidas" class="btn btn-info" formaction="index.php?estado=<?php echo $estado; ?>&op_tipo_receita=1&e_tipo_receita=3" type="submit" value="Bebidas" />
+                    <input name="botao_bebidas" class="btn btn-info" formaction="index.php?op_tipo_receita=1&e_tipo_receita=3" type="submit" value="Bebidas" />
                     &nbsp;
-                    <input name="botao_sopas" class="btn btn-warning" formaction="index.php?estado=<?php echo $estado; ?>&op_tipo_receita=1&e_tipo_receita=4" type="submit" value="Sopas" />
+                    <input name="botao_sopas" class="btn btn-warning" formaction="index.php?op_tipo_receita=1&e_tipo_receita=4" type="submit" value="Sopas" />
                     &nbsp;
-                    <input name="botao_doces_sobremesas" class="btn btn-danger" formaction="index.php?estado=<?php echo $estado; ?>&op_tipo_receita=1&e_tipo_receita=5" type="submit" value="Doces e Sobremesas" />
+                    <input name="botao_doces_sobremesas" class="btn btn-danger" formaction="index.php?op_tipo_receita=1&e_tipo_receita=5" type="submit" value="Doces e Sobremesas" />
                     &nbsp;
                     
                 </div>
@@ -137,46 +142,44 @@
     } //Fechando o op_buscar_receita == o lá de cima
 
     if($op_buscar == 1){
-        setcookie('cookie_buscar_receita', $e_nome_receita);
-
-        $valor_cookie_nome_usuario = $_COOKIE['cookie_nome_usuario'];
-
+        $_SESSION["buscar_receita"] = $e_nome_receita;
+        
         echo "<script language=\"javascript\" type=\"application/javascript\">";
-        echo "window.location.replace(\"index.php?paginacentral=buscar.php&estado=$estado\")";
+        echo "window.location.replace(\"index.php?paginacentral=buscar.php\")";
         echo "</script>";			
     }
 
     if($op_tipo_receita == 1){	
         $e_tipo_receita    = @$_REQUEST['e_tipo_receita'];
-        $valor_cookie_nome_usuario = @$_COOKIE['cookie_nome_usuario'];
 
         if($e_tipo_receita == 1){
-                setcookie('cookie_tipo_receita', 'bolos e tortas');
-                $valor_cookie_tipo_receita = $_COOKIE['cookie_tipo_receita'];
+                $_SESSION["tipo_receita"] = 'bolos e tortas';
                 verifica_estado_topo($estado);
         }
         elseif($e_tipo_receita == 2){
-                setcookie('cookie_tipo_receita', 'carnes e peixes');
+                $_SESSION["tipo_receita"] = 'carnes e peixes';
                 verifica_estado_topo($estado);
         }
         elseif($e_tipo_receita == 3){
-                setcookie('cookie_tipo_receita', 'bebidas');
+                $_SESSION["tipo_receita"] = 'bebidas';
                 verifica_estado_topo($estado);
         }
         elseif($e_tipo_receita == 4){
-                setcookie('cookie_tipo_receita', 'sopas');
+                $_SESSION["tipo_receita"] = 'sopas';
                 verifica_estado_topo($estado);
         }
         elseif($e_tipo_receita == 5){
-                setcookie('cookie_tipo_receita', 'doces e sobremesas');
+                $_SESSION["tipo_receita"] = 'doces e sobremesas';
                 verifica_estado_topo($estado);
         }
     }
 
     if ($op_estado == 1){
-        setcookie('cookie_nome_usuario','');	
+        $_SESSION["nome_usuario"] = '';
+        unset($_SESSION['login']);
+	    unset($_SESSION['senha']);
         echo "<script language=\"javascript\" type=\"application/javascript\">";
-        echo "window.location.replace(\"index.php?paginacentral=home.php&estado=naologado\")";	
+        echo "window.location.replace(\"index.php?paginacentral=home.php\")";	
         echo "</script>";
     }
 ?>
