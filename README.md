@@ -1,7 +1,4 @@
 # PROJETO-FINAL---IFTM
-My Final Project in IFTM using PHP, JAVASCRIPT, JQUERY, BOOTSTRAP, ...
-
-# PROJETO-FINAL---IFTM
 
 PROJETO-FINAL---IFTM is a final project presented at the end of my high school
 
